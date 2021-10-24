@@ -2,6 +2,8 @@
 namespace Controllers;
 
 use Controllers\Controller;
+use Services\Validation;
+use Db\Models\User;
 
 class AuthController extends Controller {
 
@@ -10,16 +12,49 @@ class AuthController extends Controller {
         return $this->view('auth/register');
     }
 
-    public function post_register() {
-        return "Hello";
+    public function post_register($request) {
+
+        if(Validation::email($request['email'])) {
+            if($request['password'] == $request['password_confirm']) {
+                $user = new User;
+                $user->create([
+                    'email' => $request['email'],
+                    'name' => $request['name'],
+                    'password' => md5($request['password'])
+                ]);
+
+                $_SESSION['auth'] = true;
+                $_SESSION['email'] = $request['email'];
+
+                return $this->redirect('home', ['success' => 'Вы успешно зарегестрированы и авторизированы!']);
+            } else {
+                return $this->redirect('auth/register', ['error' => 'Пароли не совпадают!']);
+            }
+        } else {
+            return $this->redirect('auth/register', ['error' => 'Введите данные корректно!']);
+        }
+
     }
 
     public function get_auth() {
-        
+        return $this->view('auth/index');
     }
 
-    public function post_auth() {
-        
+    public function post_auth($request) {
+        $user = new User;
+        $user->select()->where('email='.$request['email'])->get();
+        if($user) {
+            if($user['password'] == md5($request['password'])) {
+                $_SESSION['auth'] = true;
+                $_SESSION['email'] = $request['email'];
+                return $this->redirect('home', ['success' => 'Вы успешно авторизованы!']);
+            } else {
+                return $this->redirect('auth/index', ['error' => 'Пароли не совпадают!']);
+            }
+        } else {
+            return $this->redirect('auth/index', ['error' => 'Пользователя с такой почтой не существует!']);
+        }
+
     }
 
 }

@@ -10,8 +10,12 @@ class Router {
         self::$routes['GET'][$uri] = $controller; 
     }
 
-    public static function post($uri, $controller) {
-        self::$routes['POST'][$uri] = $controller;
+    public static function post($uri, $controller, $requests=null, $files=null) {
+        self::$routes['POST'][$uri] = [
+            'controller' => $controller,
+            'requests' => $requests,
+            'files' => $files
+        ];
     }
 
     public static function show_routes() {

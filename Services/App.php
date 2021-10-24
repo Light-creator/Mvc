@@ -17,11 +17,30 @@ class App {
             die();
         }
         
-        $controller_name = "\\Controllers\\". explode('@', $controller_data)[0];
-        $controller_method = explode('@', $controller_data)[1];
+        $method = $_SERVER['REQUEST_METHOD'];
+        if($method == 'POST') {
+            $controller_name = "\\Controllers\\". explode('@', $controller_data['controller'])[0];
+            $controller_method = explode('@', $controller_data['controller'])[1];
 
-        $controller = new $controller_name;
-        $controller->$controller_method();
+            $controller = new $controller_name;
+
+            if($controller_data['requests'] == true && $controller_data['files'] == true) {
+                $controller->$controller_method($_POST, $_FILES);
+            } else if($controller_data['requests'] == true) {
+                $controller->$controller_method($_POST);
+            } else if($controller_data['files'] == true) {
+                $controller->$controller_method($_FILES);
+            } else {
+                $controller->$controller_method();
+            }
+
+        } else {
+            $controller_name = "\\Controllers\\". explode('@', $controller_data)[0];
+            $controller_method = explode('@', $controller_data)[1];
+    
+            $controller = new $controller_name;
+            $controller->$controller_method();
+        }
         
     }
 

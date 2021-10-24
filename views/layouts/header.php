@@ -19,7 +19,11 @@
       <ul class="navbar-nav">
       </ul>
     </div>
-    <a class="nav-link" href="#">Авторизация</a>
-    <a type="button" href="/auth/register" class="btn btn-outline-primary">Регистрация</a>
+    <?php if($_SESSION['auth']) { ?>
+      <a class="nav-link" href="#">Авторизация</a>
+      <a type="button" href="/auth/register" class="btn btn-outline-primary">Регистрация</a>
+    <?php } ?>
   </div>
 </nav>
+
+<?php require $_SERVER['DOCUMENT_ROOT']. "/views/layouts/flash.php"; ?>
