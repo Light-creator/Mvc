@@ -20,7 +20,7 @@
       </ul>
     </div>
     <?php if($_SESSION['auth']) { ?>
-      <a class="nav-link" href="#">Авторизация</a>
+      <a class="nav-link" href="/auth/index">Авторизация</a>
       <a type="button" href="/auth/register" class="btn btn-outline-primary">Регистрация</a>
     <?php } ?>
   </div>

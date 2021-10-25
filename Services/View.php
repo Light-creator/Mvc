@@ -15,13 +15,13 @@ trait View {
     }
 
     public static function redirect($name, $query=null) {
+        
         if($query != null) {
             foreach($query as $key => $val) {
                 ${$key} = $val;
             }
         }
-        require_once $_SERVER['DOCUMENT_ROOT']. "/views/". $name . ".php";
-
+        header('Location: '.$_SERVER['HTTP_REFERER']. '' .$name );
     }
 
 }

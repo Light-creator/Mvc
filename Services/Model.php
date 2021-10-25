@@ -17,7 +17,11 @@ class Model {
         return $this;
     }
 
-    public function delete() {
+    public function delete($where) {
+
+        $this->query_string = "DELETE FROM ". $this->table ." WHERE ". $where;
+        
+        return DB_PDO::$pdo->prepare($this->query_string)->execute();
         
     }
 
@@ -38,7 +42,20 @@ class Model {
         return DB_PDO::$pdo->prepare($this->query_string)->execute($list_items);
     }
 
-    public function update() {
+    public function update($list_items, $where=null) {
+
+        $fields = "";
+        foreach($list_items as $key => $val) {
+            $fields .= ' '.$key.'="'.$val.'",';
+        }
+        $fields = substr($fields,0,-1);
+
+        $this->query_string = "UPDATE ". $this->table ." SET ". $fields;
+        if($where) {
+            $this->query_string .= ' WHERE '.$where;
+        }
+        
+        return DB_PDO::$pdo->prepare($this->query_string)->execute();
 
     }
 
@@ -49,7 +66,6 @@ class Model {
 
     public function get() {
         $data = DB_PDO::$pdo->query($this->query_string);
-        return $data;
+        return $data->fetch();
     }
-
 }

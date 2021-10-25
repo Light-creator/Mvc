@@ -26,7 +26,7 @@ class AuthController extends Controller {
                 $_SESSION['auth'] = true;
                 $_SESSION['email'] = $request['email'];
 
-                return $this->redirect('home', ['success' => 'Вы успешно зарегестрированы и авторизированы!']);
+                return $this->redirect('', ['success' => 'Вы успешно зарегестрированы и авторизированы!']);
             } else {
                 return $this->redirect('auth/register', ['error' => 'Пароли не совпадают!']);
             }
@@ -41,13 +41,13 @@ class AuthController extends Controller {
     }
 
     public function post_auth($request) {
-        $user = new User;
-        $user->select()->where('email='.$request['email'])->get();
+        $user_t = new User;
+        $user = $user_t->select('*')->where("email='".$request['email']."'")->get();
         if($user) {
             if($user['password'] == md5($request['password'])) {
                 $_SESSION['auth'] = true;
                 $_SESSION['email'] = $request['email'];
-                return $this->redirect('home', ['success' => 'Вы успешно авторизованы!']);
+                return $this->redirect('', ['success' => 'Вы успешно авторизованы!']);
             } else {
                 return $this->redirect('auth/index', ['error' => 'Пароли не совпадают!']);
             }
