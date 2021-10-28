@@ -11,7 +11,7 @@
 
 <nav class="p-3 navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">Список Покупок</a>
+    <a class="navbar-brand" href="/">Start logo</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -19,9 +19,13 @@
       <ul class="navbar-nav">
       </ul>
     </div>
-    <?php if($_SESSION['auth']) { ?>
+    <?php if(!isset($_SESSION['auth']) || $_SESSION['auth'] == false) { ?>
       <a class="nav-link" href="/auth/index">Авторизация</a>
       <a type="button" href="/auth/register" class="btn btn-outline-primary">Регистрация</a>
+    <?php } else { ?>
+      <form action="/auth/logout" method="POST">
+        <button type="submit" class="nav-link">Выйти</button>
+      </form>
     <?php } ?>
   </div>
 </nav>

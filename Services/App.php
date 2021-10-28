@@ -37,7 +37,7 @@ class App {
         } else {
             $controller_name = "\\Controllers\\". explode('@', $controller_data)[0];
             $controller_method = explode('@', $controller_data)[1];
-    
+
             $controller = new $controller_name;
             $controller->$controller_method();
         }
@@ -48,7 +48,6 @@ class App {
 
         $method = $_SERVER['REQUEST_METHOD'];
         $url = $_SERVER['REQUEST_URI'];
-        
         if(array_key_exists($url, Router::$routes[$method])) {
             return Router::$routes[$method][$url];
         } else {

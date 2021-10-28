@@ -18,6 +18,8 @@ Router::post('/auth/register', 'AuthController@post_register', true);
 Router::get('/auth/index', 'AuthController@get_auth');
 Router::post('/auth/index', 'AuthController@post_auth', true);
 
+Router::post('/auth/logout', 'AuthController@logout');
 
 App::run();
+
 

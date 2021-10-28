@@ -26,7 +26,7 @@ class AuthController extends Controller {
                 $_SESSION['auth'] = true;
                 $_SESSION['email'] = $request['email'];
 
-                return $this->redirect('', ['success' => 'Вы успешно зарегестрированы и авторизированы!']);
+                return $this->redirect('/', ['success' => 'Вы успешно зарегестрированы и авторизированы!']);
             } else {
                 return $this->redirect('auth/register', ['error' => 'Пароли не совпадают!']);
             }
@@ -47,7 +47,7 @@ class AuthController extends Controller {
             if($user['password'] == md5($request['password'])) {
                 $_SESSION['auth'] = true;
                 $_SESSION['email'] = $request['email'];
-                return $this->redirect('', ['success' => 'Вы успешно авторизованы!']);
+                return $this->redirect('/', ['success' => 'Вы успешно авторизованы!']);
             } else {
                 return $this->redirect('auth/index', ['error' => 'Пароли не совпадают!']);
             }
@@ -55,6 +55,13 @@ class AuthController extends Controller {
             return $this->redirect('auth/index', ['error' => 'Пользователя с такой почтой не существует!']);
         }
 
+    }
+
+    public function logout() {
+        $_SESSION['auth'] = false;
+        $_SESSION['email'] = false;
+
+        return $this->redirect('/', ['info' => 'Вы вышли из аккаунта!']);
     }
 
 }

@@ -5,6 +5,7 @@ namespace Services;
 class Router {
 
     public static $routes = [];
+    public static $names = [];
 
     public static function get($uri, $controller) {
         self::$routes['GET'][$uri] = $controller; 
